@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<string name="app_name">Paint</string>
+    <string name="eligeColor">Elija un color</string>
+	<string name="action_settings">Opciones</string>
+	<string name="start_new">Nueva obra</string>
+	<string name="des_new">Desea comenzar una nueva obra?</string>
+	<string name="grosorP">Grosor pincel:</string>
+	<string name="grosorG">Grosor goma:</string>
+	<string name="erase">Borrar</string>
+	<string name="save">Guardar</string>
+	<string name="paint">Paint</string>
+	<string name="sml">enano</string>
+	<string name="med">medio</string>
+	<string name="lrg">largo</string>
+	<string name="Si">Si</string>
+	<string name="cancelar">cancelar</string>
+    <string name="guardarO">Guardar obra de arte?</string>
+
+</resources>
