@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputType;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -27,7 +26,9 @@ public class MainActivity extends Activity implements OnClickListener, ColorPick
     private Pintor vistaDibujo;
     private ImageButton actual,colorBtn, grosorBtn, borrarBtn, newBtn, guardarBtn,colorSeleccionado;
     private float grosorBajo, grosorMedio, grosorAlto;
-
+/**********************************************************/
+/***********************ONCREATE***************************/
+/**********************************************************/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,15 +71,9 @@ public class MainActivity extends Activity implements OnClickListener, ColorPick
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    //user clicked paint
-
+/**********************************************************/
+/************************ONCLICK***************************/
+/**********************************************************/
     @Override
     public void onClick(View view){
 
@@ -227,7 +222,6 @@ public class MainActivity extends Activity implements OnClickListener, ColorPick
             saveDialog.show();
         }
     }
-
     public void rectangulo(View v){
         vistaDibujo.setTipoPincel(3);
         selector(v);
@@ -256,12 +250,7 @@ public class MainActivity extends Activity implements OnClickListener, ColorPick
         vistaDibujo.setTipoPincel(6);
         selector(v);
     }
-
-    @Override
-    public void colorChanged(int color) {
-        vistaDibujo.setColor(color);
-        colorSeleccionado.setBackgroundColor(vistaDibujo.getColor());
-    }
+    //ColorEnUso
     public void paintClicked(View view){
         vistaDibujo.setErase(false);
         ImageButton imgView = (ImageButton)view;
@@ -269,6 +258,18 @@ public class MainActivity extends Activity implements OnClickListener, ColorPick
         vistaDibujo.setColor(color);
         colorSeleccionado.setBackgroundColor(vistaDibujo.getColor());
     }
+
+/**********************************************************/
+/*************Sobrescritua colorChanged********************/
+/**********************************************************/
+    @Override
+    public void colorChanged(int color) {
+        vistaDibujo.setColor(color);
+        colorSeleccionado.setBackgroundColor(vistaDibujo.getColor());
+    }
+/**********************************************************/
+/***************BOTON FORMA EN USO*************************/
+/**********************************************************/
     public void selector(View v){
         borrarBtn.setBackgroundResource(R.drawable.eraser);
         vistaDibujo.setErase(false);

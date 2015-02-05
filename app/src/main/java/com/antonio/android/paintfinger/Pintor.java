@@ -40,12 +40,13 @@ public class Pintor extends View {
     private boolean erase=false;
     //coordenadas canvas fuera de cotas del lienzo
     private float x0 = -1, y0 = -1, xi = -1, yi = -1;
-
+/**********************************************************/
+/************************Iniciando componentes***************************/
+    /**********************************************************/
     public Pintor(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
     }
-
     //Datos a cargar
     private void setupDrawing(){
         brushSize = getResources().getInteger(R.integer.medium_size);
@@ -70,8 +71,10 @@ public class Pintor extends View {
     public void setTipoPincel(int tp) {
         this.tipoPincel = tp;
     }
-    //draw the view - will be called after touch event
-    @Override
+/**********************************************************/
+/************************ONDRAW***************************/
+  /**********************************************************/
+  @Override
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, pincel);
@@ -124,7 +127,9 @@ public class Pintor extends View {
         }
 
     }
-
+/**********************************************************/
+/************************onTouch***************************/
+/**********************************************************/
     //registro de toques con el dedo sobre lienzo
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -262,6 +267,9 @@ public class Pintor extends View {
         return true;
 
     }
+/**********************************************************/
+/************************set&get***************************/
+/**********************************************************/
     //actualizar color
     public void setColor(String newColor){
         invalidate();
@@ -305,7 +313,9 @@ public class Pintor extends View {
         polX=-1;
         polY=-1;
     }
-
+/**********************************************************/
+/************************NUEVODIBUJO***************************/
+    /**********************************************************/
     //nuevo dibujo
     public void startNew(){
         lienzoFondo.drawColor(0, PorterDuff.Mode.CLEAR);
