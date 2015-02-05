@@ -12,19 +12,19 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 
 /**
  * Created by Antonio on 22/01/2015.
  */
-public class DrawingView extends View {
+public class Pintor extends View {
+    //forma por defecto
     private int tipoPincel=1;
-    //drawing path
+    //ruta
     private Path drawPath;
     //drawing and canvas paint
     private Paint pincel, canvasPaint;
-    //initial color
-    private int paintColor = 0xFF660000;
+    //inicial color
+    private int paintColor = 0xFF000000;
     //canvas
     private Canvas lienzoFondo;
     //ultimo valor polilinea
@@ -32,23 +32,22 @@ public class DrawingView extends View {
     private float polY=-1;
     //canvas bitmap
     private Bitmap canvasBitmap;
+    //radio circulos
     private double radio=0;
-    //brush sizes
+    //tamaños
     private float brushSize, lastBrushSize;
-    //erase flag
+    //bandera uso borrar
     private boolean erase=false;
-
+    //coordenadas canvas fuera de cotas del lienzo
     private float x0 = -1, y0 = -1, xi = -1, yi = -1;
 
-    public DrawingView(Context context, AttributeSet attrs){
+    public Pintor(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
     }
 
-    //setup drawing
+    //Datos a cargar
     private void setupDrawing(){
-
-        //prepare for drawing and setup paint stroke properties
         brushSize = getResources().getInteger(R.integer.medium_size);
         lastBrushSize = brushSize;
         drawPath = new Path();
@@ -61,8 +60,7 @@ public class DrawingView extends View {
         pincel.setStrokeCap(Paint.Cap.ROUND);
         canvasPaint = new Paint(Paint.DITHER_FLAG);
     }
-
-    //size assigned to view
+    //tamaño lienzo
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -77,10 +75,6 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);
         canvas.drawPath(drawPath, pincel);
-        /*canvas.drawPath(drawPathY, pincel);
-        canvas.drawPath(drawPathY1, pincel);
-        canvas.drawPath(drawPath1, pincel);*/
-        //canvas.drawLine(x0, y0, x1, y1, pincel);
         switch (tipoPincel) {
             case 1://A mano alzada
                 pincel.setStyle(Paint.Style.STROKE);
@@ -109,11 +103,7 @@ public class DrawingView extends View {
                 polX=-1;
                 polY=-1;
                 break;
-            case 5:
-                polX=-1;
-                polY=-1;
-                break;
-            case 6:
+            case 6://polilinea
                 canvas.drawLine(x0, y0, xi, yi, pincel);
                 break;
             case 7://rect lleno
@@ -135,27 +125,25 @@ public class DrawingView extends View {
 
     }
 
-    //register user touches as drawing action
+    //registro de toques con el dedo sobre lienzo
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         float touchX = event.getX();
         float touchY = event.getY();
-        //respond to down, move and up events
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if(tipoPincel==1){
+                if(tipoPincel==1){//libre
                     pincel.setStyle(Paint.Style.STROKE);
                     x0 = xi = event.getX();
                     y0 = yi = event.getY();
                     drawPath.reset();
                     drawPath.moveTo(x0, y0);
                 }
-                if(tipoPincel==2){
+                if(tipoPincel==2){//rectas
                     x0 =touchX;
                     y0 =touchY;
                 }
-                if(tipoPincel==3||tipoPincel==7){
+                if(tipoPincel==3||tipoPincel==7){//rectangulos
                     x0=xi=touchX;
                     y0=yi=touchY;
                     if(tipoPincel==3){
@@ -164,7 +152,7 @@ public class DrawingView extends View {
                         pincel.setStyle(Paint.Style.FILL);
                     }
                 }
-                if(tipoPincel==4||tipoPincel==8){
+                if(tipoPincel==4||tipoPincel==8){//circulos
                     x0 =xi=touchX;
                     y0 =yi=touchY;
                     if(tipoPincel==4){
@@ -173,7 +161,7 @@ public class DrawingView extends View {
                         pincel.setStyle(Paint.Style.FILL);
                     }
                  }
-                if(tipoPincel==6){
+                if(tipoPincel==6){//polilinea
                     if(polX==-1&&polY==-1){
                         x0 =touchX;
                         y0 =touchY;
@@ -199,7 +187,7 @@ public class DrawingView extends View {
                     lienzoFondo.drawLine(x0, y0, xi, yi, pincel);
                     invalidate();
                 }
-                if(tipoPincel==3||tipoPincel==7){
+                if(tipoPincel==3||tipoPincel==7){//rectangulos
                     xi = touchX;
                     yi = touchY;
                     if(tipoPincel==3){
@@ -208,25 +196,20 @@ public class DrawingView extends View {
                         pincel.setStyle(Paint.Style.FILL);
                     }
                     invalidate();
-                } if(tipoPincel==2) {
+                } if(tipoPincel==2) {//recta
                     xi=touchX;
                     yi=touchY;
                     //invalidate();
-                } if(tipoPincel==6) {
+                } if(tipoPincel==6) {//polilinea
                     xi=touchX;
                     yi=touchY;
-                /*
-                    lienzoFondo.drawLine(x0, y0, xi, yi, pincel);
-                    x0=xi;
-                    y0=yi;*/
                 }
-                if(tipoPincel==4||tipoPincel==8) {
+                if(tipoPincel==4||tipoPincel==8) {//circulos
                     if(tipoPincel==4){
                         pincel.setStyle(Paint.Style.STROKE);
                     }else{
                         pincel.setStyle(Paint.Style.FILL);
                     }
-
                     xi=touchX;
                     yi=touchY;
                     radio = Math.sqrt(((xi - x0) * (xi - x0)) + ((yi - y0) * (yi - y0)));
@@ -259,11 +242,11 @@ public class DrawingView extends View {
                     radio = Math.sqrt(((xi-x0)*(xi-x0))+((yi-y0)*(yi-y0)));
                     lienzoFondo.drawCircle(x0, y0,(float)radio, pincel);
                     radio=0;
-                }if(tipoPincel==2) {
+                }if(tipoPincel==2) {//recta
                     lienzoFondo.drawLine(x0, y0, xi, yi, pincel);
                     drawPath.reset();
                 }
-                if(tipoPincel==6) {
+                if(tipoPincel==6) {//polillinea
                     xi=touchX;
                     yi=touchY;
                     lienzoFondo.drawLine(x0, y0, xi, yi, pincel);
@@ -279,21 +262,26 @@ public class DrawingView extends View {
         return true;
 
     }
-    //update color
+    //actualizar color
     public void setColor(String newColor){
         invalidate();
         paintColor = Color.parseColor(newColor);
         pincel.setColor(paintColor);
     }
+    public int getColor(){
+        return pincel.getColor();
+    }
+    //devuelve bitmap
     public Bitmap getBitM(){
         return this.canvasBitmap;
     }
+    //cambiar color
     public void setColor(int color){
         invalidate();
 
         pincel.setColor(color);
     }
-    //set brush size
+    //cambiar tamaño brocha size
     public void setBrushSize(float newSize){
         float pixelAmount = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 newSize, getResources().getDisplayMetrics());
@@ -301,7 +289,7 @@ public class DrawingView extends View {
         pincel.setStrokeWidth(brushSize);
     }
 
-    //get and set last brush size
+    //ultimo /anterior tamaño brocha size
     public void setLastBrushSize(float lastSize){
         lastBrushSize=lastSize;
     }
@@ -309,7 +297,7 @@ public class DrawingView extends View {
         return lastBrushSize;
     }
 
-    //set erase true or false
+    //estaborrando
     public void setErase(boolean isErase){
         erase=isErase;
         if(erase) pincel.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
@@ -318,20 +306,12 @@ public class DrawingView extends View {
         polY=-1;
     }
 
-    //start new drawing
+    //nuevo dibujo
     public void startNew(){
         lienzoFondo.drawColor(0, PorterDuff.Mode.CLEAR);
         polX=-1;
         polY=-1;
         invalidate();
     }
-    public void estasBorrando(){
-        LinearLayout l=(LinearLayout)findViewById(R.id.estilosPincel);
-        if(erase){
-            l.setBackgroundColor(Color.RED);
-        }else{
-            l.setBackgroundColor(Color.BLUE);
 
-        }
-    }
 }

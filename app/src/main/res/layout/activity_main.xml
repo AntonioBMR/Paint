@@ -10,7 +10,7 @@
 
 	<LinearLayout
 		android:layout_width="wrap_content"
-		android:layout_height="20dp"
+		android:layout_height="30dp"
 		android:layout_gravity="center"
 		android:orientation="horizontal"
         android:layout_marginTop="4dp">
@@ -26,22 +26,46 @@
             android:layout_gravity="center_vertical"
             android:layout_marginTop="3dp" />
 
-
         <ImageButton
             android:id="@+id/save_btn"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:contentDescription="@string/save"
-android:layout_marginLeft="15dp"
-android:layout_marginRight="15dp"
-android:layout_weight="1"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="3dp" />
 
         <ImageButton
+            android:layout_width="@dimen/large_brush"
+            android:layout_height="@dimen/large_brush"
+            android:layout_margin="2dp"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@drawable/circulog"
+            android:tag="#FF787878" />
+        <ImageButton
+            android:layout_width="@dimen/large_brush"
+            android:layout_height="@dimen/large_brush"
+            android:layout_margin="2dp"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@drawable/circulob"
+            android:tag="#FFFFFFFF" />
+        <ImageButton
+            android:layout_width="@dimen/large_brush"
+            android:layout_height="@dimen/large_brush"
+            android:layout_margin="2dp"
+            android:contentDescription="@string/paint"
+            android:onClick="paintClicked"
+            android:src="@drawable/circulon"
+            android:tag="#000000" />
+
+        <ImageButton
             android:id="@+id/color_btn"
             android:layout_width="fill_parent"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:contentDescription="@string/start_new"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
@@ -74,7 +98,7 @@ android:layout_weight="1"
 
 	<!-- Custom View -->
 
-	<com.antonio.android.paintfinger.DrawingView
+	<com.antonio.android.paintfinger.Pintor
 		android:id="@+id/drawing"
 		android:layout_width="fill_parent"
 		android:layout_height="0dp"
@@ -103,6 +127,15 @@ android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
+
+            <ImageButton
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_margin="2dp"
+                android:contentDescription="@string/paint"
+                android:onClick="paintClicked"
+                android:tag="#FF787878"
+                android:id="@+id/colorSeleccionado" />
 
             <ImageButton
                 android:id="@+id/libre"

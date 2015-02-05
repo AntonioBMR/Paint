@@ -120,11 +120,9 @@ private static class ColorPickerView extends View {
         if (unit >= 1) {
             return colors[colors.length - 1];
         }
-
         float p = unit * (colors.length - 1);
         int i = (int)p;
         p -= i;
-
         // now p is just the fractional part [0...1) and i is the index
         int c0 = colors[i];
         int c1 = colors[i+1];
@@ -142,23 +140,17 @@ private static class ColorPickerView extends View {
         int r = Color.red(color);
         int g = Color.green(color);
         int b = Color.blue(color);
-
-
         ColorMatrix cm = new ColorMatrix();
         ColorMatrix tmp = new ColorMatrix();
-
         cm.setRGB2YUV();
         tmp.setRotate(0, deg);
         cm.postConcat(tmp);
         tmp.setYUV2RGB();
         cm.postConcat(tmp);
-
         final float[] a = cm.getArray();
-
         int ir = floatToByte(a[0] * r +  a[1] * g +  a[2] * b);
         int ig = floatToByte(a[5] * r +  a[6] * g +  a[7] * b);
         int ib = floatToByte(a[10] * r + a[11] * g + a[12] * b);
-
         return Color.argb(Color.alpha(color), pinToByte(ir),
                 pinToByte(ig), pinToByte(ib));
     }
@@ -170,7 +162,6 @@ private static class ColorPickerView extends View {
         float x = event.getX() - CENTER_X;
         float y = event.getY() - CENTER_Y;
         boolean inCenter = Math.sqrt(x*x + y*y) <= CENTER_RADIUS;
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTrackingCenter = inCenter;
@@ -214,7 +205,6 @@ private static class ColorPickerView extends View {
                              OnColorChangedListener listener,
                              int initialColor) {
         super(context);
-
         mListener = listener;
         mInitialColor = initialColor;
     }
